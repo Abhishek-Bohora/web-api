@@ -51,7 +51,11 @@ func main() {
 		DB: database.New(conn),
 	}
 
-	e.POST("/users/create", app.CreateUserHandler)
+	//users
+	e.POST("/user/create", app.handlerCreateUser)
+
+	//products
+	e.POST("user/product/create", app.handlerCreateProduct)
 
 	// Start the server
 	e.Logger.Fatal(e.Start(":1323"))
@@ -59,7 +63,7 @@ func main() {
 }
 
 
-func (app *App) CreateUserHandler(c echo.Context) error {
+func (app *App) handlerCreateUser(c echo.Context) error {
 	name := c.FormValue("name")
 
 	user, err := app.DB.CreateUser(c.Request().Context(), database.CreateUserParams{
